@@ -46,7 +46,7 @@ def shogun_mmd(X, Y, kernel_width, null_samples=1000, median_samples=1000,
     null_samples : array of length null_samples
         The samples from the null distribution.
     '''
-    import modshogun as sg
+    import shogun as sg
     mmd = sg.QuadraticTimeMMD()
     mmd.set_p(sg.RealFeatures(X.T.astype(np.float64)))
     mmd.set_q(sg.RealFeatures(Y.T.astype(np.float64)))
@@ -85,9 +85,9 @@ def test_mean_std():
             assert len(set_1) == n_1
             var_1 = Variable(torch.from_numpy(x[set_1, :])).float()
             var_2 = Variable(torch.from_numpy(x[set_2, :])).float()
-            samples_fr.append(loss_fn_fr(var_1, var_2, alphas=[alpha]).data[0])
+            samples_fr.append(loss_fn_fr(var_1, var_2, alphas=[alpha]).item())
             samples_knn.append(
-                loss_fn_knn(var_1, var_2, alphas=[alpha]).data[0])
+                loss_fn_knn(var_1, var_2, alphas=[alpha]).item())
 
         def check(x_1, x_2):
             assert_allclose(x_1, x_2, atol=1e-2, rtol=1e-2)

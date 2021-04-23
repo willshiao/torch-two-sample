@@ -19,6 +19,11 @@ def test_pdist():
             sample_12 = np.vstack((sample_1.numpy(), sample_2.numpy()))
             distances_scipy = squareform(scipy_pdist(
                 sample_12, metric='minkowski', p=p))
-            print(distances - distances_scipy[:n_1, n_1:])
-            assert np.allclose(distances, distances_scipy[:n_1, n_1:],
-                               rtol=1e-4, atol=1e-4)
+            all_close = np.allclose(distances, distances_scipy[:n_1, n_1:],
+                               rtol=1e-3, atol=1e-3)
+            if not all_close:
+                diff = distances - distances_scipy[:n_1, n_1:]
+                print(diff)
+                bad_idxs = (np.where(np.abs(diff) > 0.0001))
+                print(distances[bad_idxs])
+            assert all_close

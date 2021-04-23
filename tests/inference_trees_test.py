@@ -13,7 +13,7 @@ def test_cardinality():
         fn = TreeMarginals(n, False)
         unaries = torch.randn(1, n * (n - 1) // 2)
         margs = fn(Variable(unaries))
-        assert np.isclose(margs.sum().data[0], n - 1)
+        assert np.isclose(margs.sum().data.item(), n - 1)
 
 
 def test_chain():
